@@ -1,56 +1,68 @@
 <template>
-    <div class="login-input">
+    <div class="auth-form-container">
         <div class="common-title-block">
             <h4 class="common-logo">毛日記｜DearFur</h4>
             <h2 class="common-title">驗證信箱</h2>
         </div>
 
-        <div class="mb-4">
-            <label for="email" class="form-label">Email</label>
-            <input type="text" id="email" v-model="email" class="form-control" placeholder="請輸入email" />
-        </div>
-        <div class="mb-4">
-            <label for="confirmCode" class="form-label">驗證碼</label>
-            <input type="text" id="confirmCode" v-model="confirmCode" class="form-control" placeholder="請輸入驗證碼" />
-        </div>
-
+        <VerificationCodeInput v-model="confirmCode" :class="{ 'input-error': isConfirmCodeInvalid }" />
 
         <Button :label="'送出'" :clickAction="confirmUserSignup" btnType="primary" :fullWidth="true" />
 
-        <div class="mt-4 text-center login-sign-up">
-            沒收到驗證信？ <span @click="resendConfirmationCode">重寄驗證信</span>
+        <div v-if="errorMessage" class="mt-3 alert alert-danger">
+            <span>{{ errorMessage }}</span>
         </div>
+
+        <ResendVerification :email="email" />
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import authApi from '@/apis/Auth.js'
 import Button from '@/components/Button.vue'
-import { useAuthStore } from '@/stores/auth.js'
+import ResendVerification from '@/components/ResendVerification.vue'
+import VerificationCodeInput from '@/components/VerificationCodeInput.vue'
 
-const email = ref('')
-const confirmCode = ref('')
+const confirmCode = ref(['', '', '', '', '', ''])
 const errorMessage = ref('')
+const route = useRoute()
 const router = useRouter()
-const authStore = useAuthStore()
+const email = ref('')
+
+const triedSubmit = ref(false)
+
+const isConfirmCodeInvalid = computed(() => triedSubmit.value && !isConfirmCodeValid.value)
+const isConfirmCodeValid = computed(() => {
+    return confirmCode.value.join('').length === 6
+})
+
+
+onMounted(() => {
+
+    email.value = route.query.email
+
+    if (!email.value) {
+        router.push('/login')
+        return
+    }
+})
 
 const confirmUserSignup = async () => {
     try {
-        const res = await authApi.confirmUserSignup({ email: email.value, confirmCode: confirmCode.value })
-        await authStore.checkAuth()
+
+        triedSubmit.value = true
+
+        if (
+            !isConfirmCodeValid.value
+        ) {
+            return
+        }
+
+        const res = await authApi.confirmUserSignup({ email: email.value, confirmCode: confirmCode.value.join('') })
         errorMessage.value = ''
         router.push('/login')
-    } catch (error) {
-        errorMessage.value = '驗證失敗，請重新確認驗證碼'
-    }
-}
-
-const resendConfirmationCode = async () => {
-    try {
-        const res = await authApi.resendConfirmationCode({ email: email.value })
-        errorMessage.value = ''
     } catch (error) {
         errorMessage.value = '驗證失敗，請重新確認驗證碼'
     }
@@ -58,8 +70,8 @@ const resendConfirmationCode = async () => {
 </script>
 
 <style scoped>
-.login-input {
-    width: 50%;
+.auth-form-container {
+    width: clamp(50%, 50vw, 70%);
 }
 
 .common-title-block {
@@ -87,23 +99,38 @@ label {
     display: block;
 }
 
+.code-inputs {
+    display: flex;
+    justify-content: space-between;
+}
+
+.code-input {
+    width: clamp(35px, 10vw, 50px);
+    height: clamp(35px, 10vw, 50px);
+    text-align: center;
+    font-size: clamp(16px, 4vw, 18px);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.code-input:focus {
+    border-color: #0b57d0;
+    outline: none;
+}
+
 .form-label-password span {
     float: right;
     cursor: pointer;
     text-decoration: underline;
 }
 
-.form-label-password span:hover, .login-sign-up span:hover {
+.form-label-password span:hover {
     color: #0b57d0;
 }
 
-.login-sign-up span {
-    cursor: pointer;
-    text-decoration: underline;
-}
 
 @media (max-width: 1010px) {
-    .login-input {
+    .auth-form-container {
         width: 70%;
     }
 }

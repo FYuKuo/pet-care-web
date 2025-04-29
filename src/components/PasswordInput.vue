@@ -1,7 +1,6 @@
-<!-- components/PasswordInput.vue -->
 <template>
     <div class="input-icon-wrapper">
-        <input :type="showPassword ? 'text' : 'password'" :placeholder="placeholder" class="form-control"
+        <input :id="id" :type="showPassword ? 'text' : 'password'" :placeholder="placeholder" class="form-control"
             v-bind="{ ...$attrs }" v-model="modelValue" @input="$emit('update:modelValue', modelValue)"
             @focus="$emit('focus', $event)" />
         <font-awesome-icon :icon="showPassword ? ['fas', 'eye-slash'] : ['fas', 'eye']" class="input-icon"
@@ -22,6 +21,10 @@ const props = defineProps({
     placeholder: {
         type: String,
         default: '請輸入密碼'
+    },
+    id: {
+        type: String,
+        default: 'password'
     }
 })
 

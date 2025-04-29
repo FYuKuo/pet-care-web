@@ -5,9 +5,8 @@
 </template>
 
 <script>
-import loginLayout from '@/layouts/loginLayout.vue'
-import defaultLayout from '@/layouts/defaultLayout.vue'
 import authLayout from '@/layouts/authLayout.vue'
+import defaultLayout from '@/layouts/defaultLayout.vue'
 
 export default {
   computed: {
@@ -17,10 +16,9 @@ export default {
       switch (layout) {
         case 'login':
         case 'sign-up':
-        case 'forgot-password':
         case 'confirm-sign-up':
-          return loginLayout
-        case 'auth':
+        case 'forgot-password':
+        case 'confirm-forgot-password':
           return authLayout
         default:
           return defaultLayout

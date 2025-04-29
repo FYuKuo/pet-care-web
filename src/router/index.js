@@ -4,6 +4,7 @@ import Login from '@/views/Login.vue'
 import SignUp from '@/views/SignUp.vue'
 import ConfirmSignUp from '@/views/ConfirmSignUp.vue'
 import ForgotPassword from '@/views/ForgotPassword.vue'
+import ConfirmForgotPassword from '@/views/ConfirmForgotPassword.vue'
 import User from '@/views/User.vue'
 import { useAuthStore } from '@/stores/auth.js'
 
@@ -39,6 +40,12 @@ const routes = [
 		meta: { layout: 'confirm-sign-up', requiresAuth: false }
 	},
 	{
+		path: '/confirm-forgot-password',
+		name: 'ConfirmForgotPassword',
+		component: ConfirmForgotPassword,
+		meta: { layout: 'confirm-forgot-password', requiresAuth: false }
+	},
+	{
 		path: '/user',
 		name: 'User',
 		component: User,
@@ -56,7 +63,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
 	const authStore = useAuthStore()
 
-	if (to.name === 'Login' || to.name === 'ForgotPassword' || to.name === 'SignUp') {
+	if (to.name === 'Login' || to.name === 'ForgotPassword' || to.name === 'SignUp' || to.name === 'ConfirmSignUp' || to.name === 'ConfirmForgotPassword') {
 		return next()
 	}
 

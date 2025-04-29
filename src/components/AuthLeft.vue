@@ -1,9 +1,9 @@
 <template>
-    <div class="login-left" v-show="!isMobile">
-        <div class="login-banner">
+    <div class="auth-left" v-show="!isMobile">
+        <div class="auth-banner">
             <img v-show="index === currentBannerIndex" v-for="(banner, index) in banners" :key="index"
                 :src="banner.img" />
-            <div class="login-banner-dots">
+            <div class="auth-banner-dots">
                 <span v-for="(banner, index) in banners" :key="index" :class="{ active: index === currentBannerIndex }"
                     @click="setCurrentBannerIndex(index)"></span>
             </div>
@@ -54,7 +54,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.login-left {
+.auth-left {
     width: 50%;
     background-color: #EEF5F4;
     display: flex;
@@ -62,21 +62,21 @@ onUnmounted(() => {
     align-items: center;
 }
 
-.login-banner {
+.auth-banner {
     width: 50%;
     height: 500px;
     display: flex;
     flex-direction: column;
 }
 
-.login-banner img {
+.auth-banner img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     cursor: pointer;
 }
 
-.login-banner-dots {
+.auth-banner-dots {
     margin-top: 20px;
     height: 12px;
     display: flex;
@@ -84,7 +84,7 @@ onUnmounted(() => {
     justify-content: center;
 }
 
-.login-banner-dots span {
+.auth-banner-dots span {
     display: block;
     width: 10px;
     height: 10px;
@@ -93,8 +93,8 @@ onUnmounted(() => {
     cursor: pointer;
 }
 
-.login-banner-dots span:hover,
-.login-banner-dots span.active {
+.auth-banner-dots span:hover,
+.auth-banner-dots span.active {
     border: 1px solid #4A4A4A;
     background-color: #4A4A4A;
 }

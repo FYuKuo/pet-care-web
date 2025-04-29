@@ -151,12 +151,8 @@ const visibleStories = computed(() => {
   return stories.value.slice(currentStoryIndex.value, currentStoryIndex.value + visibleCount.value)
 })
 
-console.log(visibleStories.value);
-
-
 const nextStories = () => {
   if (currentStoryIndex.value + visibleCount.value < stories.value.length) {
-    console.log(currentStoryIndex.value);
     currentStoryIndex.value += 1
 
   }

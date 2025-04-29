@@ -28,7 +28,6 @@ export const useAuthStore = defineStore('auth', {
         localStorage.setItem('isLogin', 'true')
         localStorage.setItem('userData', JSON.stringify(response))
       } catch (e) {
-        // console.log('checkAuth error:', e)
         this.isLogin = false
         this.userData = null
 
