@@ -7,6 +7,7 @@
 <script>
 import authLayout from '@/layouts/authLayout.vue'
 import defaultLayout from '@/layouts/defaultLayout.vue'
+import dashboardLayout from '@/layouts/dashboardLayout.vue'
 
 export default {
   computed: {
@@ -20,6 +21,8 @@ export default {
         case 'forgot-password':
         case 'confirm-forgot-password':
           return authLayout
+        case 'dashboard':
+          return dashboardLayout
         default:
           return defaultLayout
       }

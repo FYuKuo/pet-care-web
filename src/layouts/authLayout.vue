@@ -16,7 +16,7 @@ import AuthLeft from '@/components/AuthLeft.vue'
 <style scoped>
 .auth-main {
   display: flex;
-  min-height: 100vh;
+  height: 100svh;
   width: 100%;
 }
 .auth-right {
@@ -28,6 +28,7 @@ import AuthLeft from '@/components/AuthLeft.vue'
 @media (max-width: 1010px) {
   .auth-right {
     width: 100%;
+    margin-top: 60px;
   }
 }
 </style>

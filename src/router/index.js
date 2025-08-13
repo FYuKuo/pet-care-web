@@ -6,6 +6,7 @@ import ConfirmSignUp from '@/views/ConfirmSignUp.vue'
 import ForgotPassword from '@/views/ForgotPassword.vue'
 import ConfirmForgotPassword from '@/views/ConfirmForgotPassword.vue'
 import User from '@/views/User.vue'
+import Dashboard from '@/views/Dashboard.vue'
 import { useAuthStore } from '@/stores/auth.js'
 
 const routes = [
@@ -50,6 +51,12 @@ const routes = [
 		name: 'User',
 		component: User,
 		meta: { layout: 'auth', requiresAuth: true }
+	},
+	{
+		path: '/dashboard',
+		name: 'Dashboard',
+		component: Dashboard,
+		meta: { layout: 'dashboard', requiresAuth: false }
 	}
 ]
 
@@ -64,6 +71,11 @@ router.beforeEach(async (to, from, next) => {
 	const authStore = useAuthStore()
 
 	if (to.name === 'Login' || to.name === 'ForgotPassword' || to.name === 'SignUp' || to.name === 'ConfirmSignUp' || to.name === 'ConfirmForgotPassword') {
+		return next()
+	}
+
+	if (to.name === 'Dashboard') {
+		to.meta._component = Dashboard
 		return next()
 	}
 

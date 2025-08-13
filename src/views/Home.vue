@@ -171,7 +171,7 @@ const prevStories = () => {
   display: flex;
   height: 700px;
   background-color: lightpink;
-  margin-top: 50px;
+  margin-top: 60px;
 }
 
 .home-banner-text {
